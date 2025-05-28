@@ -10,9 +10,7 @@ import (
 )
 
 func Init(ctx context.Context) (*pgxpool.Pool, error) {
-	if err := godotenv.Load(); err != nil {
-		return nil, err
-	}
+	godotenv.Load()
 
 	pool, err := pgxpool.New(ctx, fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s",
 		os.Getenv("DATABASE_USER"),

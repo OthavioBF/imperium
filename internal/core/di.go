@@ -1,4 +1,4 @@
-package di
+package core
 
 import (
 	"log/slog"
@@ -22,13 +22,11 @@ func InjectDependencies(postgresConn *pgxpool.Pool, sessionManager *scs.SessionM
 	)
 
 	userService := services.NewUserService(postgresConn, logger)
-	productService := product.NewService(postgres.NewProductRepository(postgresConn), logger)
 
 	return api.Api{
-		Router:         chi.NewMux(),
-		Session:        sessionManager,
-		Logger:         logger,
-		UserService:    userService,
-		ProductService: productService,
+		Router:      chi.NewMux(),
+		Session:     sessionManager,
+		Logger:      logger,
+		UserService: userService,
 	}
 }

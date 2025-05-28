@@ -30,8 +30,6 @@ func NewUserService(pool *pgxpool.Pool, logger *slog.Logger) *UserService {
 }
 
 func (s *UserService) GetUsers(ctx context.Context, id uuid.UUID) ([]pgstore.User, error) {
-	// s.logger.Error("User Service", "Critical error")
-
 	users, err := s.repo.GetUsers(ctx)
 	if err != nil {
 		return nil, err
@@ -48,7 +46,7 @@ func (s *UserService) GetUserById(ctx context.Context, id uuid.UUID) error {
 func (s *UserService) CreateUser(ctx context.Context, user pgstore.CreateUserParams) (uuid.UUID, error) {
 	tx, err := s.pool.Begin(ctx)
 	if err != nil {
-		s.logger.Error("User Service", "Begin error", err)
+		s.logger.Error("User Service", "Failed to begin transaction: ", err)
 		return uuid.UUID{}, err
 	}
 	defer func() {
